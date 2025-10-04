@@ -16,7 +16,7 @@ allow := {"decision": true}  if {
 }
 
 # bartender
-allow := {"decision": true, "input": input.context}  if {
+allow := {"decision": true, "payload": payload}  if {
     token :=  trim_prefix(trim_suffix(input.action.headers.Authorization, "\""), "Bearer ")
     [headers, payload, _] := io.jwt.decode(token)
 	
