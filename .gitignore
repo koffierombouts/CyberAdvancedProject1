@@ -1,0 +1,15 @@
+
+/.vscode
+/API/.vs
+/API/bin
+/API/obj
+/SPA/.parcel-cache
+/SPA/dist
+/SPA/node_modules
+/SPA/package-lock.json
+/OPA/opa_windows_amd64.exe
+/LogService/node_modules
+/LogService/package-lock.json
+
+*.pdf
+*.drawio
