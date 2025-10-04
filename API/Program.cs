@@ -1,4 +1,3 @@
-using API.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using OpenPolicyAgent.Opa;
@@ -29,17 +28,6 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddHttpContextAccessor();
-
-// builder.Services.AddAuthorization(options =>
-// {
-//     options.FallbackPolicy = new AuthorizationPolicyBuilder()
-//         .RequireAuthenticatedUser()
-//         .Build();
-//     options.AddPolicy("Over16Only", policy =>
-//             policy.Requirements.Add(new AgeRequirement(16)));
-// });
-// builder.Services.AddSingleton<IAuthorizationHandler, AgeHandler>();
-
 
 var app = builder.Build();
 
