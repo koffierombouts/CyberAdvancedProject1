@@ -2,22 +2,42 @@ package policy
 
 default allow := {"decision": false}
 
-# customer
+drinkType := json.unmarshal(input.context.data.requestBody).DrinkName
+token :=  trim_prefix(trim_suffix(input.action.headers.Authorization, "\""), "Bearer ")
+
+# customer ouder dan 16 ==> bier
 allow := {"decision": true}  if {
-    token :=  trim_prefix(trim_suffix(input.action.headers.Authorization, "\""), "Bearer ")
     [headers, payload, _] := io.jwt.decode(token)
 	
-    #Check resource
+    # Check resource
 	input.resource.id == "/api/bar"
     input.action.name == "POST"
     
-    #Check role
+    # Check rol and leeftijd
     "customer" in payload.role
+    payload.age > 16
+
+    # Check drinkType
+    drinkType == "Beer"
 }
 
-# bartender
-allow := {"decision": true, "payload": payload}  if {
-    token :=  trim_prefix(trim_suffix(input.action.headers.Authorization, "\""), "Bearer ")
+# customer jonger dan 16 ==> fristi
+allow := {"decision": true}  if {
+    [headers, payload, _] := io.jwt.decode(token)
+	
+    # Check resource
+	input.resource.id == "/api/bar"
+    input.action.name == "POST"
+    
+    # Check rol and leeftijd
+    "customer" in payload.role
+
+    # Check drinkType
+    drinkType == "Fristi"
+}
+
+# bartender ==> whiskey
+allow := {"decision": true}  if {
     [headers, payload, _] := io.jwt.decode(token)
 	
     # Check resource
@@ -26,4 +46,7 @@ allow := {"decision": true, "payload": payload}  if {
     
     # Check role
     "bartender" in payload.role
+
+    # Check drinkType
+    drinkType == "Whiskey"
 }
