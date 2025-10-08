@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using OpenPolicyAgent.Opa;
 using OpenPolicyAgent.Opa.AspNetCore;
+using API.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<IContextDataProvider, PostBodyContextDataProvider>();
 
 var app = builder.Build();
 
